@@ -1,5 +1,6 @@
 import conf_settings from "./settings.js"
 import keys from "./keys.js"
+import search_engines from "./search-engines.js"
 
 const {
   mapkey,
@@ -11,6 +12,7 @@ const {
   unmap,
   iunmap,
   vunmap,
+  addSearchAlias,
 } = api;
 
 const unregisterKey = (keystroke, mode, domain) => {
@@ -46,6 +48,19 @@ const registerKey = (keymap, mode, domain) => {
   }
 }
 
+const registerSearchEngine = (search_engine, search_leader) => {
+  addSearchAlias(
+    search_engine.alias,
+    search_engine.prompt,
+    search_engine.search_url,
+    "", // search_leader_key from clipboard
+    search_engine.suggestion_url,
+    search_engine.callback_to_parse_suggestion,
+    undefined, // only_this_site_key
+    null,
+  )
+}
+
 // settings
 Object.assign(settings, conf_settings)
 
@@ -68,3 +83,8 @@ if (keys && keys.hasOwnProperty("maps")) {
     })
   })
 }
+
+// search engines
+search_engines.forEach((search_engine) => {
+  registerSearchEngine(search_engine, "o")
+})
