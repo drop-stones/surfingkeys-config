@@ -1,3 +1,5 @@
+import { search_engines as priv_search_engines } from "./private.js"
+
 const createSuggestionEntry = (title, url, { desc = null, query = null } = {}) => {
   const descElement = desc ? `<div>${desc}</div>` : ""
   const li = document.createElement('li')
@@ -15,7 +17,7 @@ const createSuggestionEntry = (title, url, { desc = null, query = null } = {}) =
   }
 }
 
-const search_engines = [
+var search_engines = [
   {
     alias: "gh",
     prompt: "github",
@@ -39,5 +41,9 @@ const search_engines = [
     search_url: "https://amazon.co.jp/s/?field-keywords=",
   },
 ]
+
+if (priv_search_engines && Array.isArray(priv_search_engines)) {
+  search_engines = [...search_engines, ...priv_search_engines]
+}
 
 export default search_engines
