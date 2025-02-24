@@ -51,23 +51,6 @@ var maps = {
         old_keystroke: "af",
         annotation: "#1Open a link in active new tab"
       },
-      // #3: Tabs
-      {
-        keys: "H",
-        annotation: "#3Go one tab left",
-        jscode: function () {
-          RUNTIME("previousTab");
-        },
-        options: { repeatIgnore: true },
-      },
-      {
-        keys: "L",
-        annotation: "#3Go one tab right",
-        jscode: function () {
-          RUNTIME("nextTab");
-        },
-        options: { repeatIgnore: true },
-      },
       // #4: Page Navigation
       {
         keys: "J",
