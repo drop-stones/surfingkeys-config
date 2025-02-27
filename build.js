@@ -4,14 +4,10 @@ import os from "os"
 import fs from "fs"
 import { execSync } from "child_process"
 
-// Get HOME directory from environment variables
-const homeDir = process.env.HOME || process.env.USERPROFILE || os.homedir();
-const destPath = path.join(homeDir, ".config", "surfingkeys.js")
-
-const build = async () => {
+const build = async (entryPoint, outfile) => {
   return esbuild.build({
-    entryPoints: ["src/main.js"],
-    outfile: "build/surfingkeys.js",
+    entryPoints: [`src/${entryPoint}`],
+    outfile: `build/${outfile}`,
     bundle: true, // bundle all dependencies
     format: "esm", // ES module format
     minify: false, // optimization
@@ -38,12 +34,16 @@ const setup_private = async () => {
   }
 }
 
-const install = () => {
+const install = (outfile) => {
+  // Get HOME directory from environment variables
+  const homeDir = process.env.HOME || process.env.USERPROFILE || os.homedir();
+  const destPath = path.join(homeDir, ".config", outfile)
+
   try {
     if (os.platform() === "win32") {
-      execSync(`copy /Y build\\surfingkeys.js ${destPath}`);
+      execSync(`copy /Y build\\${outfile} ${destPath}`);
     } else if (os.platform() === "darwin" || os.platform() === "linux") {
-      execSync(`cp build/surfingkeys.js ${destPath}`)
+      execSync(`cp build/${outfile} ${destPath}`)
     }
     console.log(`Installed to ${destPath}`);
   } catch (err) {
@@ -120,13 +120,18 @@ const updateVivaldiPreferences = () => {
 }
 
 const action = process.argv.includes("setup-vivaldi") ? "setup-vivaldi" : process.argv.includes("install") ? "install" : "build";
+const vivaldi = process.argv.includes("--vivaldi");
 
 if (action === "setup-vivaldi") {
   updateVivaldiPreferences();
-} else if (action === "install") {
-  setup_private();
-  build().then(() => install());
 } else {
+  const entryPoint = vivaldi ? "index.vivaldi.js" : "index.js";
+  const outfile = vivaldi ? "surfingkeys.vivaldi.js" : "surfingkeys.js"
+
   setup_private();
-  build();
+  if (action === "install") {
+    build(entryPoint, outfile).then(() => install(outfile));
+  } else {
+    build(entryPoint, outfile);
+  }
 }
