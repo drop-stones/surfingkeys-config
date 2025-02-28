@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node build.js",
     "install": "node build.js install",
-    "setup-vivaldi": "node build.js setup-vivaldi"
+    "configure-vivaldi": "node configure_vivaldi.js"
   },
   "repository": {
     "type": "git",

@@ -39,8 +39,8 @@ const registerSearchEngine = (search_engine, search_leader) => {
     "", // search_leader_key from clipboard
     search_engine.suggestion_url,
     search_engine.callback_to_parse_suggestion,
-    undefined, // only_this_site_key
-    null,
+    search_engine.only_this_site_key, // only_this_site_key
+    search_engine.options,
   )
 }
 
