@@ -2,6 +2,26 @@ import path from "path"
 import os from "os"
 import fs from "fs"
 
+const ensureJsonKey = (obj, path) => {
+  return path.split('.').reduce((acc, key) => {
+    if (!(key in acc))
+      acc[key] = {};
+    return acc[key];
+  }, obj);
+}
+
+const registerShortcuts = (obj, commandName, ...shortcuts) => {
+  for (const shortcut of shortcuts) {
+    obj[commandName].shortcuts.push(shortcut);
+  }
+}
+
+const clearShortcuts = (actions) => {
+  Object.values(actions).forEach(command => {
+    command.shortcuts = [];
+  })
+}
+
 const getVivaldiPreferencesPath = () => {
   let preferencesPath;
   switch (os.platform()) {
@@ -26,39 +46,17 @@ const updateVivaldiPreferences = () => {
     const data = fs.readFileSync(preferencesPath, "utf-8");
     const preferences = JSON.parse(data);
 
-    if (!preferences.vivaldi) {
-      preferences.vivaldi = {};
-    }
-    if (!preferences.vivaldi.actions) {
-      preferences.vivaldi.actions = [{}];
-    }
+    const actions = ensureJsonKey(preferences, 'vivaldi').actions[0];
+    clearShortcuts(actions);
 
-    // Add forward tab switching by `L`
-    if (!preferences.vivaldi.actions[0].COMMAND_TAB_SWITCH_FORWARD_SETTING) {
-      preferences.vivaldi.actions[0].COMMAND_TAB_SWITCH_FORWARD_SETTING = { shortcuts: [] };
-    }
-    const tab_switch_forward_shortcuts = preferences.vivaldi.actions[0].COMMAND_TAB_SWITCH_FORWARD_SETTING.shortcuts;
-    if (!tab_switch_forward_shortcuts.includes("shift+l")) {
-      tab_switch_forward_shortcuts.push("shift+l");
-    }
+    // tab
+    registerShortcuts(actions, "COMMAND_TAB_SWITCH_FORWARD_SETTING", "shift+l"); // forward tab switching
+    registerShortcuts(actions, "COMMAND_TAB_SWITCH_BACK_SETTING", "shift+h"); // backward tab switching
 
-    // Add backward tab switching by `H`
-    if (!preferences.vivaldi.actions[0].COMMAND_TAB_SWITCH_BACK_SETTING) {
-      preferences.vivaldi.actions[0].COMMAND_TAB_SWITCH_BACK_SETTING = { shortcuts: [] };
-    }
-    const tab_switch_back_shortcuts = preferences.vivaldi.actions[0].COMMAND_TAB_SWITCH_BACK_SETTING.shortcuts;
-    if (!tab_switch_back_shortcuts.includes("shift+h")) {
-      tab_switch_back_shortcuts.push("shift+h");
-    }
+    // shortcuts settings
+    ensureJsonKey(preferences, 'vivaldi').actions = [actions];
 
-    // Hide tab visualization
-    if (!preferences.vivaldi.tabs) {
-      preferences.vivaldi.tabs = {};
-    }
-    if (!preferences.vivaldi.tabs.visual_switch) {
-      preferences.vivaldi.tabs.visual_switch = {};
-    }
-    preferences.vivaldi.tabs.visual_switch.enable = false;
+    ensureJsonKey(preferences, 'vivaldi.tabs.visual_switch').enable = false; // Hide tab visualization
 
     fs.writeFileSync(preferencesPath, JSON.stringify(preferences, null, 2), "utf-8");
     console.log("Setup vivaldi");
