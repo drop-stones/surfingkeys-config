@@ -8,6 +8,8 @@ const registerKey = (keymap, mode, domain) => {
       api.imap(keymap.new_keystroke, keymap.old_keystroke, dom, annotation)
     } else if (mode === "visual") {
       api.vmap(keymap.new_keystroke, keymap.old_keystroke, dom, annotation)
+    } else if (mode === "omnibar") {
+      api.cmap(keymap.new_keystroke, keymap.old_keystroke, dom, annotation)
     }
   } else if (keymap.hasOwnProperty("keys") && keymap.hasOwnProperty("annotation") && keymap.hasOwnProperty("jscode")) {
     if (mode === "normal") {
