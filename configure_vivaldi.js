@@ -11,6 +11,11 @@ const ensureJsonKey = (obj, path) => {
 }
 
 const registerShortcuts = (obj, commandName, ...shortcuts) => {
+  // Add command if not exists
+  if (!obj[commandName]) {
+    obj[commandName] = { shortcuts: [] };
+  }
+
   for (const shortcut of shortcuts) {
     obj[commandName].shortcuts.push(shortcut);
   }
