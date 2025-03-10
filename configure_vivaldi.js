@@ -2,11 +2,16 @@ import path from "path"
 import os from "os"
 import fs from "fs"
 
+const getOrSet = (map, key, defaultValue) => {
+  if (!map.hasOwnProperty(key)) {
+    map[key] = defaultValue;
+  }
+  return map[key];
+}
+
 const ensureJsonKey = (obj, path) => {
   return path.split('.').reduce((acc, key) => {
-    if (!(key in acc))
-      acc[key] = {};
-    return acc[key];
+    return getOrSet(acc, key, {});
   }, obj);
 }
 
@@ -37,7 +42,7 @@ const getVivaldiPreferencesPath = () => {
       preferencesPath = path.join(os.homedir(), "Library", "Application Support", "Vivaldi", "User Data", "Default", "Preferences");
       break;
     case "linux":
-      preferencesPath = path.join(os.homedir(), ".config", "vivaldi", "User Data", "Default", "Preferences");
+      preferencesPath = path.join(os.homedir(), ".config", "vivaldi", "Default", "Preferences");
       break;
     default:
       throw new Error("Unsupported OS");
@@ -51,7 +56,7 @@ const updateVivaldiPreferences = () => {
     const data = fs.readFileSync(preferencesPath, "utf-8");
     const preferences = JSON.parse(data);
 
-    const actions = ensureJsonKey(preferences, 'vivaldi').actions[0];
+    const actions = getOrSet(ensureJsonKey(preferences, "vivaldi"), "actions", [{}])[0];
     clearShortcuts(actions);
 
     // window
