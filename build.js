@@ -55,9 +55,10 @@ const isVivaldi = process.argv.includes("--vivaldi");
 const entryPoint = isVivaldi ? "index.vivaldi.js" : "index.js";
 const outfile = isVivaldi ? "surfingkeys.vivaldi.js" : "surfingkeys.js"
 
-setup_private();
-if (action === "install") {
-  build(entryPoint, outfile).then(() => install(outfile));
-} else {
-  build(entryPoint, outfile);
-}
+setup_private().then(() => {
+  if (action === "install") {
+    build(entryPoint, outfile).then(() => install(outfile));
+  } else {
+    build(entryPoint, outfile);
+  }
+})
