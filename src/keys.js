@@ -156,6 +156,13 @@ var maps = {
     insert: [],
     visual: [],
     omnibar: [],
+    vim: [
+      {
+        lhs: "jk",
+        rhs: "<Esc>",
+        mode: "insert",
+      },
+    ],
   },
 }
 
