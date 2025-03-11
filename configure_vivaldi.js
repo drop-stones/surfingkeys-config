@@ -91,8 +91,19 @@ const updateVivaldiPreferences = () => {
     registerShortcuts(actions, "COMMAND_WORKSPACE_SWITCH_BACK_ORDER", "shift+k"); // switch backward workspace
     registerShortcuts(actions, "COMMAND_WORKSPACE_SWITCH_FORWARD_ORDER", "shift+j"); // switch forward workspace
 
-    ensureJsonKey(preferences, 'vivaldi.tabs.visual_switch').enable = false; // Hide tab visualization
-    ensureJsonKey(preferences, 'vivaldi.keyboard.shortcuts').enable_single_key = true; // Enable single key shortcut
+    // tabs
+    ensureJsonKey(preferences, "vivaldi.tabs.visual_switch").enable = false; // Hide tab visualization
+
+    // keyboard
+    ensureJsonKey(preferences, "vivaldi.keyboard.shortcuts").enable_single_key = true; // Enable single key shortcut
+    ensureJsonKey(preferences, "vivaldi.keyboard.shortcuts").alt_opens_menu = false; // Disable to open menu by alt
+    ensureJsonKey(preferences, "vivaldi.keyboard.shortcuts").space_fast_forwards = false; // Disable to move forward by space key
+    ensureJsonKey(preferences, "vivaldi.webpages").access_keys = false; // Prioritize vivaldi shortcuts instead of webpages
+    ensureJsonKey(preferences, "vivaldi.webpages.spatial_navigation").enabled = false; // Disable to navigate between links and elements using keyboard
+
+    // startpage
+    ensureJsonKey(preferences, "vivaldi.startpage").navigation = 2; // Hide start page navigation
+    ensureJsonKey(preferences, "vivaldi.startpage.speed_dial").add_button_visible = false; // Hide add button on start page
 
     fs.writeFileSync(preferencesPath, JSON.stringify(preferences, null, 2), "utf-8");
     console.log("Setup vivaldi");
