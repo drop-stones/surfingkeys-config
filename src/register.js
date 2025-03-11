@@ -19,6 +19,8 @@ const registerKey = (keymap, mode, domain) => {
     } else if (mode === "visual") {
       api.vmapkey(keymap.keys, keymap.annotation, keymap.jscode, { domain: dom })
     }
+  } else if (keymap.hasOwnProperty("lhs") && keymap.hasOwnProperty("rhs") && keymap.hasOwnProperty("mode")) {
+    api.aceVimMap(keymap.lhs, keymap.rhs, keymap.mode)
   }
 }
 

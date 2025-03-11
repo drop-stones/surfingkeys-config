@@ -9,6 +9,7 @@ const mergeMaps = (maps1, maps2) => {
       insert: [],
       visual: [],
       omnibar: [],
+      vim: [],
     };
 
     if (maps1[domain]) {
@@ -16,6 +17,7 @@ const mergeMaps = (maps1, maps2) => {
       mergedMaps[domain].insert = [...mergedMaps[domain].insert, ...(maps1[domain].insert || [])]
       mergedMaps[domain].visual = [...mergedMaps[domain].visual, ...(maps1[domain].visual || [])]
       mergedMaps[domain].omnibar = [...mergedMaps[domain].omnibar, ...(maps1[domain].omnibar || [])]
+      mergedMaps[domain].vim = [...mergedMaps[domain].vim, ...(maps1[domain].vim || [])]
     }
 
     if (maps2[domain]) {
@@ -23,6 +25,7 @@ const mergeMaps = (maps1, maps2) => {
       mergedMaps[domain].insert = [...mergedMaps[domain].insert, ...(maps2[domain].insert || [])]
       mergedMaps[domain].visual = [...mergedMaps[domain].visual, ...(maps2[domain].visual || [])]
       mergedMaps[domain].omnibar = [...mergedMaps[domain].omnibar, ...(maps2[domain].omnibar || [])]
+      mergedMaps[domain].vim = [...mergedMaps[domain].vim, ...(maps2[domain].vim || [])]
     }
   })
 
