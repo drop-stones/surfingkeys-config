@@ -16,6 +16,7 @@ var unmaps = {
       // #2: Scroll Page / Element
       "e", // Scroll half page up
       // #3: Tabs
+      "T", // Choose a tab
       "E", // Go one tab left
       "R", // Go one tab right
       "<<", // Move current tab to left
@@ -140,6 +141,14 @@ var maps = {
         annotation: "#3Move current tab to right",
         jscode: function () {
           api.RUNTIME('moveTab', { step: 1 })
+        },
+        options: { repeatIgnore: true },
+      },
+      {
+        keys: "T",
+        annotation: "#3Choose a tab with omnibar",
+        jscode: function () {
+          api.Front.openOmnibar({ type: "Tabs" });
         },
         options: { repeatIgnore: true },
       },
