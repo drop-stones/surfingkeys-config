@@ -37,3 +37,39 @@ export default `
     background: #242424e0;
     color: #E0E0E0;
 }
+
+/* ACE editor */
+:root {
+    --theme-ace-bg:#181818ab;
+    --theme-ace-bg-accent:#303030ab;
+    --theme-ace-fg:#e0e0e0;
+    --theme-ace-fg-accent:#bb9af7;
+    --theme-ace-cursor:#9aa5cea0;
+    --theme-ace-select:#3b4261;
+}
+#sk_editor {
+    background: var(--theme-ace-bg) !important;
+}
+.ace_dialog-bottom {
+    border-top: 1px solid var(--theme-ace-bg) !important;
+}
+.ace-chrome .ace_print-margin, .ace_gutter, .ace_gutter-cell, .ace_dialog {
+    background: var(--theme-ace-bg-accent) !important;
+}
+.ace-chrome {
+    color: var(--theme-ace-fg) !important;
+}
+.ace_gutter, .ace_dialog {
+    color: var(--theme-ace-fg-accent) !important;
+}
+.ace_cursor {
+    color: var(--theme-ace-cursor) !important;
+}
+.normal-mode .ace_cursor {
+    background-color: var(--theme-ace-cursor) !important;
+    border: var(--theme-ace-cursor) !important;
+}
+.ace_marker-layer .ace_selection {
+    background: var(--theme-ace-select) !important;
+}
+`;
